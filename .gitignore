@@ -1,0 +1,12 @@
+/.anchor/
+/target/
+/test-ledger/
+/node_modules/
+/app/.next/
+/app/node_modules/
+/.env
+/.env.local
+*.log
+*.key
+*.json.keypair
+

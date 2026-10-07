@@ -1,0 +1,12 @@
+{
+  "name": "Mock USDC",
+  "symbol": "USDC",
+  "cluster": "devnet",
+  "mint": "7S3HyHeoD9WvVt63frsvRU9Kcixw2bRDAeyD8tVC6w8H",
+  "decimals": 6,
+  "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+  "verifiedAt": "2026-10-05T17:37:00Z",
+  "verification": "Read-only getAccountInfo against https://api.devnet.solana.com returned an initialized classic SPL Token mint with six decimals.",
+  "realValue": false
+}
+
