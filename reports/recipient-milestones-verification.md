@@ -16,7 +16,7 @@ Known-good Design payment: `294e2R8p756e6VeCUZmBoSHB5HNv16brkrs21TUTfNuG9uDiVcFt
 
 For the subsequent history/frontend publication verification, see `history-devnet-verification.md`.
 
-Local checkpoint: `checkpoint/pre-approvals-milestones-20261010` at the pre-change commit. Changes remain uncommitted. The user's unrelated `.superstack/` and pitch-deck HTML were left untouched.
+Local checkpoints: `checkpoint/pre-approvals-milestones-20261010` and `checkpoint/pre-history-devnet-20261010` at the pre-change commit. Implementation was committed and pushed as `da111715568b9383b63ff317db6755c745140064`. Both connected Vercel sites published successfully. The user's unrelated `.superstack/` and pitch-deck HTML were left untouched and excluded from publication.
 
 ## Compatibility and state
 
@@ -64,7 +64,7 @@ The existing wallet connection, version-0 fallback / version-1 support, devnet g
 - `anchor build`: PASS using existing WSL / Anchor 1.2.0 / Solana 4.2.2 toolchain.
 - Full local Anchor suite: **26 passing** (9 unchanged legacy tests + 17 agreement tests).
 - Includes valid 50/30/20, recipient count boundaries, total/duplicates/zero shares, UTF-8 name limits, zero amounts, decimals, Pending payment rejection, unauthorized/missing/duplicate signatures, 2-of-3 gating, immutable terms, legacy bypass rejection, wrong mint/account ordering/count, one payment signer, exact rounding, insufficient balance, repeat-payment protection, and rollback of both paid state and all token balances after a final-recipient failure. The latter is submitted to the local validator with preflight skipped to exercise an actual failed local transaction.
-- Frontend `npm test`: **84 passing across 8 files**.
+- Frontend `npm test`: **109 passing across 10 files**, including the subsequent history tests.
 - `npm run lint`: PASS.
 - `npx tsc --noEmit`: PASS.
 - `npm run build`: PASS on Windows; Linux/WSL production build also passed.
@@ -120,7 +120,7 @@ Recipient funding executed under the later deployment/demo authorization: **0.00
 
 ## 60-second demo (verified on devnet)
 
-Prepare recipient wallets and the demo payer before recording; use devnet only, with mock tokens and small test-SOL balances.
+Prepare recipient wallets and the demo payer before recording; use devnet only, with mock tokens and small test-SOL balances. The already verified example has Design paid; Development (20 mock USDC) and Launch (10 mock USDC) remain unpaid. Do not try to repay Design.
 
 | Time | Action / evidence |
 |---|---|

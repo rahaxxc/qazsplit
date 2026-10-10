@@ -54,4 +54,13 @@ The previous approval/milestone implementation file list remains in its report. 
 
 ## Browser / frontend publication
 
-Pending final browser check and GitHub/Vercel publication at the time this draft was created. Do not interpret the completed onchain upgrade as proof the public frontend is already updated.
+Implementation commit: `da111715568b9383b63ff317db6755c745140064`, pushed to `rahaxxc/qazsplit` main. GitHub reported both Vercel checks successful:
+
+- `https://qazsplit.vercel.app/history` — HTTP 200, updated history page verified.
+- `https://qazsplit-zky1.vercel.app/history` — HTTP 200, updated history page verified.
+
+Headless Edge checks passed on localhost and on `https://qazsplit.vercel.app` at 375 / 768 / 1280 px: wallet discovery/connection, agreement listing, Active / Locked progress, expandable exact receipt for the new Design payment, devnet Explorer link, keyboard focus, and reloaded Paid milestone receipt. No page exceptions, hydration errors, horizontal overflow or signing requests. Public RPC responses were captured live on the first viewport and reused in-memory for the other widths to avoid unnecessary RPC bursts; no artificial onchain state or signature was substituted.
+
+The original program deployment's HTTP-RPC write attempt hit rate limits. Resuming the same buffer via CLI TPU completed successfully. Final binary matches the tested build; upgrade and payment are finalized. The buffer account is closed (`getAccountInfo` returned null), with its rent recovered. Dedicated deployer final balance: 8.75665406 devnet SOL. Personal Phantom balance remains 100 mock USDC; no personal payment was signed during this verification.
+
+The remaining demo milestones are Development: 20 mock USDC (10 / 6 / 4), Launch: 10 mock USDC (5 / 3 / 2). Open `/pay/A7MyBg1Ao9dSdXExBJxGop8mvjD2NuwGbDdeTj6WwGkU`, connect a devnet payer wallet, select an unpaid milestone, simulate, inspect allocation, then explicitly sign. Design is already paid and cannot be paid again. For a new proposal, every actual recipient must approve with their own wallet before any payment is allowed.
