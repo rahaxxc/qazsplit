@@ -12,9 +12,10 @@ import {
   simulateInstructions,
 } from "@/lib/qazsplit-client";
 import { MOCK_USDC_MINT } from "@/lib/constants";
+import { buildProposeSplitInstruction, validateMilestones } from "@/lib/agreement-client";
 import type { AppClient } from "@/lib/solana-client";
 import { getTransactionClient, getWalletTransactionVersion, type WalletTransactionVersion } from "@/lib/transaction-compat";
-import { parsePercentToBps } from "@/lib/split-math";
+import { parsePercentToBps, parseTokenAmount } from "@/lib/split-math";
 
 type Row = { id: number; wallet: string; percent: string };
 type Prepared = { instruction: Instruction; splitConfig: Address; splitId: bigint; creator: Address; transactionVersion: WalletTransactionVersion };
@@ -37,7 +38,7 @@ function messageFromError(error: unknown): string {
   return error instanceof Error ? error.message : "Something went wrong. Try again.";
 }
 
-export function CreateSplitForm() {
+export function CreateSplitForm({ withMilestones = false }: { withMilestones?: boolean }) {
   const client = useClient<AppClient>();
   const wallet = useConnectedWallet(client);
   const hydrated = useSyncExternalStore(subscribeToHydration, getClientSnapshot, getServerSnapshot);
@@ -51,6 +52,14 @@ export function CreateSplitForm() {
   const [error, setError] = useState<string | null>(null);
   const [signature, setSignature] = useState<string | null>(null);
   const [nextId, setNextId] = useState(4);
+  const [milestones, setMilestones] = useState([{ id: 1, name: "Design", amount: "10" }]);
+  const [nextMilestoneId, setNextMilestoneId] = useState(2);
+  const parsedMilestones = milestones.map((m) => ({ name: m.name.trim(), amount: parseTokenAmount(m.amount) ?? 0n }));
+  let milestoneReason: string | null = null;
+  if (withMilestones) {
+    try { validateMilestones(parsedMilestones); }
+    catch (error) { milestoneReason = messageFromError(error); }
+  }
 
   const parsedShares = useMemo(
     () => rows.map((row) => parsePercentToBps(row.percent)),
@@ -80,7 +89,7 @@ export function CreateSplitForm() {
             ? "Enter valid positive share percentages"
             : transactionVersion == null
               ? "This wallet cannot sign supported Solana transactions. Try Phantom or Solflare."
-              : null;
+              : milestoneReason;
   const busy = phase === "simulating" || phase === "signing";
   const preparedForWallet = prepared?.creator === connected?.account.address
     && prepared?.transactionVersion === transactionVersion;
@@ -110,13 +119,16 @@ export function CreateSplitForm() {
     try {
       const creator = address(connected.account.address);
       const splitId = BigInt(Date.now());
-      const built = await buildCreateSplitInstruction({
+      const input = {
         creator,
         mint: MOCK_USDC_MINT,
         splitId,
         recipients,
         sharesBps: parsedShares as number[],
-      });
+      };
+      const built = withMilestones
+        ? await buildProposeSplitInstruction({ ...input, milestones: parsedMilestones })
+        : await buildCreateSplitInstruction(input);
       await simulateInstructions(client, creator, [built.instruction], transactionVersion);
       setPrepared({ ...built, splitId, creator, transactionVersion });
       setPhase("ready");
@@ -149,10 +161,11 @@ export function CreateSplitForm() {
       <div className="panel-heading">
         <div>
           <p className="eyebrow">1 · Create Split</p>
-          <h1>Lock the team allocation</h1>
+          <h1>{withMilestones ? "Agree on the team allocation" : "Lock the team allocation"}</h1>
           <p>
-            Add 2–5 wallets. The percentages become immutable when your wallet creates the
-            config PDA.
+            {withMilestones
+              ? "Propose 2–5 wallets and fixed milestones. Terms cannot change; every recipient must approve their share before payments unlock."
+              : "Add 2–5 wallets. The percentages become immutable when your wallet creates the config PDA."}
           </p>
         </div>
         <div className="token-chip">
@@ -253,6 +266,33 @@ export function CreateSplitForm() {
         </div>
       </div>
 
+      {withMilestones ? (
+        <fieldset className="space-y-4 border-t border-line pt-6" disabled={busy}>
+          <legend className="field-label">Project milestones</legend>
+          <p className="field-help">1–5 milestones, six decimals maximum. Each uses the same approved split and can be paid once.</p>
+          {milestones.map((milestone, index) => (
+            <div className="grid grid-cols-[minmax(0,1fr)_44px] items-end gap-3 md:grid-cols-[minmax(0,1fr)_minmax(200px,0.6fr)_44px]" key={milestone.id}>
+              <div className="col-span-2 md:col-span-1">
+                <label className="field-label" htmlFor={`milestone-name-${milestone.id}`}>Milestone {index + 1} name</label>
+                <input id={`milestone-name-${milestone.id}`} className="text-input" value={milestone.name} maxLength={32}
+                  onChange={(event) => { setMilestones((current) => current.map((m) => m.id === milestone.id ? { ...m, name: event.target.value } : m)); setPrepared(null); setPhase("idle"); setError(null); }} />
+              </div>
+              <div>
+                <label className="field-label" htmlFor={`milestone-amount-${milestone.id}`}>Milestone {index + 1} amount (mock USDC)</label>
+                <input id={`milestone-amount-${milestone.id}`} className="text-input font-mono tabular-nums" inputMode="decimal" value={milestone.amount}
+                  onChange={(event) => { setMilestones((current) => current.map((m) => m.id === milestone.id ? { ...m, amount: event.target.value } : m)); setPrepared(null); setPhase("idle"); setError(null); }} />
+              </div>
+              <button type="button" className="icon-button" disabled={milestones.length <= 1} aria-label={`Remove milestone ${index + 1}`}
+                onClick={() => { setMilestones((current) => current.filter((m) => m.id !== milestone.id)); setPrepared(null); setPhase("idle"); }}><Trash2 size={17} aria-hidden="true" /></button>
+            </div>
+          ))}
+          <button type="button" className="secondary-button" disabled={milestones.length >= 5}
+            onClick={() => { setMilestones((current) => [...current, { id: nextMilestoneId, name: "", amount: "" }]); setNextMilestoneId((id) => id + 1); setPrepared(null); setPhase("idle"); }}>
+            <Plus size={17} aria-hidden="true" /> Add milestone
+          </button>
+        </fieldset>
+      ) : null}
+
       {error ? (
         <div className="error-banner" role="alert">
           <strong>Split request failed.</strong>
@@ -265,7 +305,7 @@ export function CreateSplitForm() {
           <Check size={18} aria-hidden="true" />
           <div>
             <strong>Simulation passed.</strong>
-            <p>The config is ready. The next click opens your wallet signature request.</p>
+            <p>{withMilestones ? "The proposal is ready. Signing creates a Pending agreement, not an active payment split." : "The config is ready. The next click opens your wallet signature request."}</p>
           </div>
         </div>
       ) : null}
@@ -276,11 +316,11 @@ export function CreateSplitForm() {
             <Check size={22} />
           </div>
           <div>
-            <h2>Split created</h2>
+            <h2>{withMilestones ? "Split proposed · Pending approvals" : "Split created"}</h2>
             <p className="font-mono text-xs break-all">{prepared.splitConfig}</p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link className="primary-button" href={`/pay/${prepared.splitConfig}`}>
-                <Link2 size={17} aria-hidden="true" /> Open payment link
+                <Link2 size={17} aria-hidden="true" /> {withMilestones ? "Open approval / payment link" : "Open payment link"}
               </Link>
               {signature ? (
                 <a
@@ -321,7 +361,7 @@ export function CreateSplitForm() {
               {phase === "signing" ? (
                 <LoaderCircle className="spin" size={17} aria-hidden="true" />
               ) : null}
-              {phase === "signing" ? "Check wallet…" : "Create immutable split"}
+              {phase === "signing" ? "Check wallet…" : withMilestones ? "Propose split" : "Create immutable split"}
             </button>
             {createReason ? (
               <p id="create-split-reason" className="field-help" role="status">{createReason}</p>

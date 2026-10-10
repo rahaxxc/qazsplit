@@ -28,5 +28,20 @@ pub enum QazSplitError {
     RecipientMintMismatch,
     #[msg("Recipient token account belongs to the wrong wallet.")]
     RecipientOwnerMismatch,
+    #[msg("An agreement must contain between one and five milestones.")]
+    InvalidMilestoneCount,
+    #[msg("Milestone names must be nonblank and at most 32 UTF-8 bytes.")]
+    InvalidMilestoneName,
+    #[msg("Mock USDC must have six decimals.")]
+    InvalidMintDecimals,
+    #[msg("Only a configured recipient may approve their own share.")]
+    UnauthorizedRecipient,
+    #[msg("This recipient already approved the agreement.")]
+    AlreadyApproved,
+    #[msg("Every recipient must approve before a milestone can be paid.")]
+    AgreementPending,
+    #[msg("The selected milestone does not exist.")]
+    InvalidMilestoneIndex,
+    #[msg("This milestone has already been paid.")]
+    MilestoneAlreadyPaid,
 }
-

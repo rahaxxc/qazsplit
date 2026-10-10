@@ -270,7 +270,11 @@ export async function fetchSplitConfig(
     throw new Error("Split config is not owned by the QazSplit program.");
   }
 
-  const bytes = getBase64Encoder().encode(account.data[0]);
+  return decodeSplitConfig(configAddress, Uint8Array.from(getBase64Encoder().encode(account.data[0])));
+}
+
+// Shared by payment pages and the read-only archive; validation stays identical.
+export async function decodeSplitConfig(configAddress: Address, bytes: Uint8Array): Promise<SplitConfig> {
   if (bytes.length !== 253) throw new Error("Split config has an unexpected data length.");
   assertBytesEqual(
     bytes.slice(0, 8),

@@ -26,6 +26,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
+      <nav className="page-container flex flex-wrap gap-3 pt-4" aria-label="Main navigation">
+        <Link href="/" className="secondary-button">Create Split</Link>
+        <Link href="/history" className="secondary-button">History</Link>
+      </nav>
       <main className="page-container py-10 sm:py-14">{children}</main>
       <footer className="page-container border-t border-line py-6 text-xs text-muted">
         Test tokens only. QazSplit never holds payer funds.

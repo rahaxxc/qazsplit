@@ -11,7 +11,7 @@
     "build": "npm --workspace app run build",
     "lint": "npm --workspace app run lint",
     "test": "npm --workspace app run test",
-    "test:anchor": "mocha --import=tsx --timeout 100000 tests/qazsplit.ts",
+    "test:anchor": "mocha --import=tsx --timeout 100000 tests/qazsplit.ts tests/agreement.ts",
     "verify:fixture": "node scripts/verify-devnet-fixture.mjs",
     "check": "npm run lint && npm run test && npm run build",
     "check:program": "anchor build && anchor test"

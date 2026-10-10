@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/app-shell";
-import { PaySplitForm } from "@/components/pay-split-form";
+import { SplitPayment } from "@/components/split-payment";
 
 export default async function PayPage({
   params,
@@ -9,7 +9,7 @@ export default async function PayPage({
   const { split } = await params;
   return (
     <AppShell>
-      <PaySplitForm splitAddress={split} />
+      <SplitPayment key={split} splitAddress={split} />
     </AppShell>
   );
 }

@@ -24,7 +24,7 @@ export default function Home() {
           <span>2–5 recipient wallets</span>
         </div>
       </section>
-      <CreateSplitForm />
+      <CreateSplitForm withMilestones />
     </AppShell>
   );
 }

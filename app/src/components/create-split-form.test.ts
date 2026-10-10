@@ -12,7 +12,7 @@ const state = vi.hoisted(() => ({
   walletAddress: "HnmuWE9QzLTod7jywqDKEXdDPms3SjQnGBoBea6FjaEQ",
   supportsV1: true,
   supportsV0: true,
-  send: vi.fn(), build: vi.fn(), simulate: vi.fn(), getClient: vi.fn(),
+  send: vi.fn(), build: vi.fn(), propose: vi.fn(), simulate: vi.fn(), getClient: vi.fn(),
 }));
 const recipients = [
   "aXCZBKwKMSiDkftZd3m6Gky7FAsNpTnXA2yN9bP35JX",
@@ -37,6 +37,10 @@ vi.mock("@/lib/transaction-compat", async (importOriginal) => ({
 vi.mock("@/lib/qazsplit-client", () => ({
   buildCreateSplitInstruction: state.build,
   simulateInstructions: state.simulate,
+}));
+vi.mock("@/lib/agreement-client", async (original) => ({
+  ...await original<typeof import("@/lib/agreement-client")>(),
+  buildProposeSplitInstruction: state.propose,
 }));
 
 function buttons() {
@@ -63,6 +67,7 @@ describe("Create Split CTA prerequisites", () => {
     vi.clearAllMocks();
     state.getClient.mockReturnValue(client);
     state.build.mockResolvedValue({ instruction: { programAddress: recipients[0] }, splitConfig: recipients[0] });
+    state.propose.mockResolvedValue({ instruction: { programAddress: recipients[0] }, splitConfig: recipients[0] });
     state.simulate.mockResolvedValue(undefined);
     state.send.mockResolvedValue({ context: { signature: "mock-test-signature" } });
   });
@@ -223,5 +228,36 @@ describe("Create Split CTA prerequisites", () => {
     expect(buttons().simulate.disabled).toBe(false);
     expect(screen.getByText("Simulate config first")).toBeTruthy();
     expect(state.send).not.toHaveBeenCalled();
+  });
+
+  it("proposes named fixed-amount milestones without activating the agreement", async () => {
+    render(createElement(CreateSplitForm, { withMilestones: true }));
+    fillRecipients();
+    fireEvent.change(screen.getByLabelText("Milestone 1 name"), { target: { value: "Design" } });
+    fireEvent.change(screen.getByLabelText("Milestone 1 amount (mock USDC)"), { target: { value: "10.000001" } });
+    fireEvent.click(screen.getByRole("button", { name: "Simulate config" }));
+    const propose = screen.getByRole("button", { name: "Propose split" }) as HTMLButtonElement;
+    await waitFor(() => expect(propose.disabled).toBe(false));
+    expect(state.propose.mock.calls[0][0].milestones).toEqual([{ name: "Design", amount: 10_000_001n }]);
+    expect(state.build).not.toHaveBeenCalled();
+    fireEvent.click(propose);
+    await waitFor(() => expect(screen.getByText("Split proposed · Pending approvals")).toBeTruthy());
+    expect(screen.getByRole("link", { name: /Open approval.*payment link/ }).getAttribute("href")).toBe(`/pay/${recipients[0]}`);
+  });
+
+  it.each(["", "0", "1.0000001", "18446744073709.551616"])("blocks invalid milestone amount %s", (amount) => {
+    render(createElement(CreateSplitForm, { withMilestones: true })); fillRecipients();
+    fireEvent.change(screen.getByLabelText("Milestone 1 amount (mock USDC)"), { target: { value: amount } });
+    expect((screen.getByRole("button", { name: "Simulate config" }) as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByRole("button", { name: "Propose split" }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it("requires simulation again after changing immutable milestone terms", async () => {
+    render(createElement(CreateSplitForm, { withMilestones: true })); fillRecipients();
+    fireEvent.click(screen.getByRole("button", { name: "Simulate config" }));
+    const propose = screen.getByRole("button", { name: "Propose split" }) as HTMLButtonElement;
+    await waitFor(() => expect(propose.disabled).toBe(false));
+    fireEvent.change(screen.getByLabelText("Milestone 1 name"), { target: { value: "Changed" } });
+    expect(propose.disabled).toBe(true);
   });
 });
