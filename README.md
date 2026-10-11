@@ -1,18 +1,35 @@
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/assets/readme-cover-mobile.svg">
+  <img src="docs/assets/readme-cover.svg" alt="QazSplit. One client. Everyone paid. Recipient-approved team payments on Solana devnet. An illustrative 20 mock-USDC payment splits directly into 10, 6 and 4." width="1200">
+</picture>
+
 # QazSplit
 
-> Agree on shares. Pay by milestone. Every teammate receives funds directly.
+**Agree on shares. Pay by milestone. Verify every payout.**
 
-QazSplit lets a client pay a small project team in one atomic payment transaction. Every recipient first approves their share onchain. The client then pays a fixed milestone, and tokens go directly to the recipients, not through a QazSplit vault.
+QazSplit lets a client pay a small team directly in one atomic transaction. Each recipient first approves their share onchain. No teammate forwards the payment. No QazSplit vault holds the funds.
 
-[Live app](https://qazsplit.vercel.app) · [Pitch video: 1:46](demo-day/QazSplit-pitch.mp4) · [App demo: 2:30, English](demo-day/QazSplit-demo-2m30-EN.mp4) · [12-slide pitch PDF](demo-day/pitch-deck.pdf) · [Try / verify the demo](docs/demo.md) · [Architecture](docs/architecture.md)
+<p>
+  <a href="https://qazsplit.vercel.app"><img src="docs/assets/open-app.svg" alt="Open the devnet app" width="200" height="52"></a>
+  <a href="demo-day/QazSplit-pitch.mp4"><img src="docs/assets/watch-pitch.svg" alt="Watch pitch video, 1:46" width="200" height="52"></a>
+  <a href="demo-day/QazSplit-demo-2m30-EN.mp4"><img src="docs/assets/watch-demo.svg" alt="Watch app demo, 2:30" width="200" height="52"></a>
+</p>
 
-**Solana devnet only. Six-decimal mock USDC only. No real money. Unaudited hackathon prototype.**
+[Pitch deck](demo-day/pitch-deck.pdf) · [Try the demo](docs/demo.md) · [Architecture](docs/architecture.md) · [Development guide](docs/development.md) · [Roadmap](docs/roadmap.md)
 
-![QazSplit receipt for a previously confirmed Development payment: 20 mock USDC split into 10, 6 and 4](demo-day/assets/development-receipt.png)
+> **Devnet only · Mock USDC · No real money**<br>
+> Working hackathon prototype. Unaudited. The program remains upgradeable.
 
-*Actual devnet UI captured on October 10, 2026. This is an existing payment, not a new transaction being signed.*
+## Watch the project
 
-## Problem and solution
+| The pitch · 1:46 | The application · 2:30 |
+|---|---|
+| [![Watch the QazSplit pitch: One client. Everyone paid.](docs/assets/pitch-preview.png)](demo-day/QazSplit-pitch.mp4) | [![Watch the real-browser QazSplit walkthrough showing recipient approvals](docs/assets/demo-preview.png)](demo-day/QazSplit-demo-2m30-EN.mp4) |
+| The problem, the product and why it belongs onchain. | Proposal preview, approvals, a historical payment, receipt, history and Explorer. English synthetic narration. |
+
+The demo shows **existing devnet state**, not a newly signed payment. If GitHub does not play a video inline, select **Download raw file**.
+
+## Made for the whole team
 
 A small team can agree on a 50/30/20 allocation, but a client paying one teammate still leaves that person responsible for forwarding everyone else's money.
 
@@ -32,6 +49,11 @@ Proposal creation and recipient approvals are separate transactions. "One signat
 
 ## Implemented features
 
+The core workflow is **consent → milestone → direct payment → proof**.
+
+<details>
+<summary><strong>Explore the eight implemented capabilities</strong></summary>
+
 | Feature | Current behavior |
 |---|---|
 | Recipient approval | Onchain wallet signatures; unauthorized and duplicate approvals rejected |
@@ -42,6 +64,8 @@ Proposal creation and recipient approvals are separate transactions. "One signat
 | Wallet history | Reads agreements and confirmed payment activity from RPC; no application database |
 | Wallet UX | Connection, devnet guard, allocation preview and simulation before signing |
 | Legacy compatibility | Existing immutable `SplitConfig` accounts and payment URLs remain supported |
+
+</details>
 
 The focus is **recipient consent + milestone payments + direct settlement + verifiable receipts**, not payment splitting alone. We do not claim this combination is exclusive or a proven competitive moat.
 
@@ -55,6 +79,11 @@ The focus is **recipient consent + milestone payments + direct settlement + veri
 These properties make the agreement and settlement independently inspectable instead of trusting only a UI or spreadsheet. Other smart-contract chains can support similar patterns; this is an implementation choice, not a claim that atomicity is unique to Solana.
 
 ## Architecture
+
+**Wallets sign. PDAs store terms. The Token Program transfers funds directly.** No backend, database, login or indexer.
+
+<details>
+<summary><strong>See the onchain payment path</strong></summary>
 
 ```mermaid
 flowchart LR
@@ -70,7 +99,27 @@ flowchart LR
 
 No vault, escrow, backend, database, login or indexer. The Next.js frontend reads and submits through Solana RPC. [State layouts, instructions and rounding](docs/architecture.md).
 
-## Verified devnet example
+</details>
+
+## A payment you can verify
+
+**20 mock USDC paid. 10 / 6 / 4 received. One payer signature.**
+
+[View the finalized transaction ↗](https://explorer.solana.com/tx/4XN2cKLQkooRBWoCuqJk4AjkHy4ia2PfqihPHaPzjXNpy4fRJg4wuqauemuG4MohiKnz4r2yoN2Hn2fHQTxfukmh?cluster=devnet) · [Open the approved agreement ↗](https://qazsplit.vercel.app/pay/A7MyBg1Ao9dSdXExBJxGop8mvjD2NuwGbDdeTj6WwGkU)
+
+This Development payment was confirmed on **October 10, 2026**. The amounts are recipient balance **changes**, not current balances. This milestone is already Paid and cannot be paid again.
+
+<details>
+<summary><strong>Show the actual receipt screenshot</strong></summary>
+
+![QazSplit receipt for the previously confirmed Development payment: 20 mock USDC split into 10, 6 and 4](demo-day/assets/development-receipt.png)
+
+Actual devnet UI captured October 10, 2026. No new transaction was signed to capture it.
+
+</details>
+
+<details>
+<summary><strong>Program, mint and public verification details</strong></summary>
 
 | Item | Address / result |
 |---|---|
@@ -81,9 +130,12 @@ No vault, escrow, backend, database, login or indexer. The Next.js frontend read
 | Transaction | [Open finalized devnet payment in Explorer](https://explorer.solana.com/tx/4XN2cKLQkooRBWoCuqJk4AjkHy4ia2PfqihPHaPzjXNpy4fRJg4wuqauemuG4MohiKnz4r2yoN2Hn2fHQTxfukmh?cluster=devnet) |
 | Evidence | Slot `509571296`, onchain time `2026-10-10T14:30:23Z`, one payer signature |
 
-This milestone is already Paid and cannot be paid again. To reproduce a **new** payment, create a fresh agreement using wallets you control. Public demo addresses do not give access to the recipient wallets. [Step-by-step demo and funding requirements](docs/demo.md).
+</details>
 
-## Tech stack
+To reproduce a **new** payment, create a fresh agreement using wallets you control. Public demo addresses do not give access to the recipient wallets. [Step-by-step demo and funding requirements](docs/demo.md).
+
+<details>
+<summary><strong>Tech stack and pinned toolchain</strong></summary>
 
 | Layer | Technology |
 |---|---|
@@ -93,6 +145,8 @@ This milestone is already Paid and cannot be paid again. To reproduce a **new** 
 | Tests | Anchor + Mocha integration suites; Vitest frontend suites |
 | Toolchain | Node.js 24.x, npm 11.x, Solana CLI 4.2.2 |
 | Hosting | Vercel frontend; Solana devnet program |
+
+</details>
 
 ## Quick start
 
@@ -126,6 +180,9 @@ Tests cover the 50/30/20 payout, incorrect totals, duplicate recipients, wrong m
 
 ## Repository map
 
+<details>
+<summary><strong>Find the program, frontend, tests and presentation assets</strong></summary>
+
 ```text
 programs/qazsplit/src/   Anchor instructions, state and integer allocation math
 tests/                  Legacy split and recipient-approved milestone integration tests
@@ -139,6 +196,8 @@ demo-day/               Video, 12-slide pitch, UI screenshots and presentation m
 reports/                Dated implementation and devnet verification records
 .github/workflows/      Existing frontend and program CI
 ```
+
+</details>
 
 ## Limitations and next validation
 

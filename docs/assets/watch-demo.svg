@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="52" viewBox="0 0 200 52" role="img" aria-labelledby="title">
+  <title id="title">Watch the application demo. Two minutes thirty seconds.</title>
+  <rect x="1" y="1" width="198" height="50" rx="9" fill="#f4f6f4" stroke="#d7ded9"/>
+  <path d="M20 19 L20 33 L31 26 Z" fill="#087f6a"/>
+  <text x="43" y="32" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#14201c">App demo · 2:30</text>
+</svg>

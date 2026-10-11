@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="620" viewBox="0 0 600 620" role="img" aria-labelledby="title desc">
+  <title id="title">QazSplit. One client. Everyone paid.</title>
+  <desc id="desc">Recipient-approved team payments. Agree once, pay by milestone. A twenty mock-USDC example splits into ten, six and four. Devnet only. No vault or real money.</desc>
+  <rect x="1" y="1" width="598" height="618" rx="20" fill="#f4f6f4" stroke="#d7ded9"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="32" y="32" width="42" height="42" rx="11" fill="#14201c"/>
+    <text x="53" y="61" text-anchor="middle" font-size="28" font-weight="700" fill="#ffffff">Q</text>
+    <text x="88" y="61" font-size="26" font-weight="700" letter-spacing="-1" fill="#14201c">QazSplit</text>
+    <text x="568" y="58" text-anchor="end" font-size="15" font-weight="700" fill="#087f6a">SOLANA DEVNET</text>
+    <text x="32" y="120" font-size="15" font-weight="700" letter-spacing="1" fill="#087f6a">RECIPIENT-APPROVED TEAM PAYMENTS</text>
+    <text x="29" y="195" font-size="66" font-weight="700" letter-spacing="-3" fill="#14201c">One client.</text>
+    <text x="29" y="268" font-size="66" font-weight="700" letter-spacing="-3" fill="#14201c">Everyone paid.</text>
+    <text x="32" y="316" font-size="25" fill="#596861">Agree once. Pay by milestone.</text>
+    <rect x="32" y="354" width="536" height="64" rx="12" fill="#14201c"/>
+    <text x="54" y="394" font-size="23" font-weight="700" fill="#ffffff">Client pays 20 mock USDC</text>
+    <path d="M300 418 V440 M117 440 H483 M117 440 V461 M300 440 V461 M483 440 V461" fill="none" stroke="#087f6a" stroke-width="2"/>
+    <rect x="32" y="461" width="170" height="88" rx="10" fill="#ffffff" stroke="#d7ded9"/>
+    <rect x="215" y="461" width="170" height="88" rx="10" fill="#ffffff" stroke="#d7ded9"/>
+    <rect x="398" y="461" width="170" height="88" rx="10" fill="#ffffff" stroke="#d7ded9"/>
+    <text x="117" y="498" text-anchor="middle" font-size="29" font-weight="700" fill="#087f6a">10</text>
+    <text x="300" y="498" text-anchor="middle" font-size="29" font-weight="700" fill="#087f6a">6</text>
+    <text x="483" y="498" text-anchor="middle" font-size="29" font-weight="700" fill="#087f6a">4</text>
+    <text x="117" y="530" text-anchor="middle" font-size="17" fill="#596861">Developer · 50%</text>
+    <text x="300" y="530" text-anchor="middle" font-size="17" fill="#596861">Designer · 30%</text>
+    <text x="483" y="530" text-anchor="middle" font-size="17" fill="#596861">Manager · 20%</text>
+    <text x="32" y="590" font-size="18" font-weight="700" fill="#087f6a">Mock tokens only. No vault. No real money.</text>
+  </g>
+</svg>

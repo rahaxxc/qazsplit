@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="52" viewBox="0 0 200 52" role="img" aria-labelledby="title">
+  <title id="title">Open the devnet app</title>
+  <rect x="1" y="1" width="198" height="50" rx="9" fill="#087f6a"/>
+  <text x="22" y="32" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#ffffff">Open devnet app</text>
+  <path d="M172 19 H182 V29 M182 19 L171 30" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

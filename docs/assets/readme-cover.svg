@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">QazSplit. One client. Everyone paid.</title>
+  <desc id="desc">Recipient-approved team payments on Solana devnet. A twenty mock-USDC example splits directly into ten, six and four tokens. No vault. Test tokens only.</desc>
+  <rect width="1200" height="500" rx="20" fill="#f4f6f4"/>
+  <rect x="1" y="1" width="1198" height="498" rx="19" fill="none" stroke="#d7ded9"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="48" y="40" width="46" height="46" rx="12" fill="#14201c"/>
+    <text x="71" y="72" text-anchor="middle" font-size="30" font-weight="700" fill="#ffffff">Q</text>
+    <text x="108" y="71" font-size="27" font-weight="700" letter-spacing="-1" fill="#14201c">QazSplit</text>
+    <rect x="958" y="45" width="194" height="36" rx="18" fill="#e7f6f1"/>
+    <circle cx="979" cy="63" r="4" fill="#087f6a"/>
+    <text x="994" y="69" font-size="16" font-weight="700" fill="#066b59">SOLANA DEVNET</text>
+    <text x="48" y="139" font-size="14" font-weight="700" letter-spacing="2" fill="#087f6a">RECIPIENT-APPROVED TEAM PAYMENTS</text>
+    <text x="44" y="219" font-size="76" font-weight="700" letter-spacing="-4" fill="#14201c">One client.</text>
+    <text x="44" y="302" font-size="76" font-weight="700" letter-spacing="-4" fill="#14201c">Everyone paid.</text>
+    <text x="48" y="351" font-size="23" fill="#596861">Agree once. Pay by milestone.</text>
+    <text x="48" y="383" font-size="23" fill="#596861">Tokens go directly to your team.</text>
+    <path d="M48 425 H620" stroke="#d7ded9"/>
+    <text x="48" y="458" font-size="14" font-weight="700" letter-spacing="1.2" fill="#087f6a">MOCK TOKENS ONLY</text>
+    <circle cx="236" cy="453" r="2" fill="#a1b0a7"/>
+    <text x="251" y="458" font-size="14" fill="#596861">No custody. No vault. No real money.</text>
+
+    <text x="768" y="122" font-size="13" font-weight="700" letter-spacing="1.5" fill="#596861">50 / 30 / 20 ALLOCATION EXAMPLE</text>
+    <rect x="768" y="142" width="384" height="76" rx="12" fill="#14201c"/>
+    <rect x="788" y="163" width="34" height="30" rx="6" fill="none" stroke="#90d8c3" stroke-width="2"/>
+    <path d="M788 170 H822 M814 180 H820" stroke="#90d8c3" stroke-width="2"/>
+    <text x="839" y="173" font-size="15" fill="#c4d3cb">Client pays</text>
+    <text x="839" y="198" font-size="22" font-weight="700" fill="#ffffff">20 mock USDC</text>
+    <path d="M960 218 V234 H738 V430 M738 277 H768 M738 353 H768 M738 429 H768" fill="none" stroke="#087f6a" stroke-width="2"/>
+    <circle cx="738" cy="277" r="4" fill="#087f6a"/>
+    <circle cx="738" cy="353" r="4" fill="#087f6a"/>
+    <circle cx="738" cy="429" r="4" fill="#087f6a"/>
+    <rect x="768" y="247" width="384" height="60" rx="10" fill="#ffffff" stroke="#d7ded9"/>
+    <rect x="768" y="323" width="384" height="60" rx="10" fill="#ffffff" stroke="#d7ded9"/>
+    <rect x="768" y="399" width="384" height="60" rx="10" fill="#ffffff" stroke="#d7ded9"/>
+    <text x="788" y="272" font-size="17" font-weight="700" fill="#14201c">Developer</text>
+    <text x="788" y="292" font-size="14" fill="#596861">50% share</text>
+    <text x="1132" y="285" text-anchor="end" font-size="25" font-weight="700" fill="#087f6a">10</text>
+    <text x="788" y="348" font-size="17" font-weight="700" fill="#14201c">Designer</text>
+    <text x="788" y="368" font-size="14" fill="#596861">30% share</text>
+    <text x="1132" y="361" text-anchor="end" font-size="25" font-weight="700" fill="#087f6a">6</text>
+    <text x="788" y="424" font-size="17" font-weight="700" fill="#14201c">Manager</text>
+    <text x="788" y="444" font-size="14" fill="#596861">20% share</text>
+    <text x="1132" y="437" text-anchor="end" font-size="25" font-weight="700" fill="#087f6a">4</text>
+  </g>
+</svg>
