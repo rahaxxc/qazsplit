@@ -50,3 +50,16 @@ The historical Development payment rechecked for this documentation:
 Slot `509571296`, timestamp `2026-10-10T14:30:23Z`, finalized, `meta.err = null`. The live read-only check confirms the existing receipt; no new payment occurred.
 
 Local `.superstack/` context, obsolete alternative recording scripts, voice synthesis intermediates, wallet material, environment files and build outputs are excluded from this publication. This remains an unaudited devnet/mock-token prototype. Colosseum-copilot and submit-to-hackathon guidance informed evidence-first organization and reproducible demo instructions, not a final application submission.
+
+## Follow-up: supplied pitch video
+
+On October 11, the maintainer supplied a separate pitch recording. Added `demo-day/QazSplit-pitch.mp4` and distinct Pitch / App Demo links in the root README, asset index and demo guide. The supplied video is preserved byte-for-byte, without new narration, editing or re-encoding.
+
+- Container duration: **105.76 seconds**, below the user's supplied two-minute pitch limit.
+- H.264 video, 848×478, 30 fps; AAC stereo audio, 44.1 kHz.
+- Full video/audio decode: PASS, no decoding errors.
+- Audio volume check: non-silent, mean −24.7 dB, peak −0.4 dB.
+- Representative frames inspected at 0, 15, 30, 45, 60, 75, 90 and 104 seconds: QazSplit slides, distinct from the app walkthrough.
+- Source/copy SHA-256: `2e3fcc86010742ab63a108bd2fa54fd11f1d047818587dea8388589443645f41`.
+
+The duration check is not independent verification of event rules or submission eligibility. This is the supplied compressed recording; no higher-resolution source was inferred or created. No application/program changes or deployments were made. Frontend/Anchor suites were not rerun for the video/link-only addition; the earlier checks above remain dated results.

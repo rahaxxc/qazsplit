@@ -5,12 +5,13 @@
 ## Start here
 
 - [Live application](https://qazsplit.vercel.app)
+- [Pitch video, 1 minute 45.76 seconds](../demo-day/QazSplit-pitch.mp4)
 - [English narrated walkthrough, 2 minutes 30 seconds](../demo-day/QazSplit-demo-2m30-EN.mp4)
 - [12-slide pitch PDF](../demo-day/pitch-deck.pdf)
 - [Known approved agreement](https://qazsplit.vercel.app/pay/A7MyBg1Ao9dSdXExBJxGop8mvjD2NuwGbDdeTj6WwGkU)
 - [Known Development payment in Solana Explorer](https://explorer.solana.com/tx/4XN2cKLQkooRBWoCuqJk4AjkHy4ia2PfqihPHaPzjXNpy4fRJg4wuqauemuG4MohiKnz4r2yoN2Hn2fHQTxfukmh?cluster=devnet)
 
-The MP4 is stored in this repository; if GitHub does not play it inline, use **View raw / Download raw file**. It is a real-browser, read-only walkthrough with English synthetic narration, not a recording of a newly signed payment. It shows a proposal preview, a separate Pending agreement and an existing approved agreement/receipt. No wallet secrets or new signatures were used to record it.
+Both MP4s are stored in this repository; if GitHub does not play them inline, use **View raw / Download raw file**. The **pitch video** is the supplied narrated slide presentation; the **app walkthrough** is a separate real-browser, read-only recording with English synthetic narration, not a newly signed payment. The app walkthrough shows a proposal preview, a separate Pending agreement and an existing approved agreement/receipt. No wallet secrets or new signatures were used to record that walkthrough.
 
 ## Verify existing proof without spending tokens
 

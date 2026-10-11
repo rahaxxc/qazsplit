@@ -2,6 +2,7 @@
 
 | Asset | Purpose |
 |---|---|
+| [Pitch video](QazSplit-pitch.mp4) | Supplied narrated slide presentation, measured 1:45.76; separate from the app walkthrough |
 | [English narrated app walkthrough](QazSplit-demo-2m30-EN.mp4) | Finished 2:30 MP4, real browser UI, synthetic English voice |
 | [Pitch PDF](pitch-deck.pdf) | Current twelve-slide presentation |
 | [Offline HTML deck](../pitch-deck-20261006-001200.html) | Same deck with navigation and speaker notes; download the repository to view |
@@ -12,7 +13,9 @@
 | [Walkthrough narration](walkthrough-narration-en.json) | Exact English speech and scene lengths used in the finished 2:30 video |
 | [Screenshots](assets/) | Actual devnet approval, milestone, receipt and history captures |
 
-GitHub may require **Download raw file** to open the MP4. The video uses a read-only browser wallet bridge exposing only a public address, not a real Phantom signing session. It previews a proposal, then shows a separate Pending agreement and existing approved/payment state. No new payment or approval was signed for this recording.
+GitHub may require **Download raw file** to open either MP4. The pitch is the supplied presentation recording, preserved without re-encoding: 848×478, H.264 video and AAC audio. Its measured duration is under the user's supplied two-minute pitch limit; no claim about independently verified event eligibility is made.
+
+The separate **app walkthrough** uses a read-only browser wallet bridge exposing only a public address, not a real Phantom signing session. It previews a proposal, then shows a separate Pending agreement and existing approved/payment state. No new payment or approval was signed for that recording.
 
 The Development receipt is a previously confirmed 20 mock-USDC payment with 10/6/4 recipient deltas. Its signature matches the Explorer scene. Do not present the footage as a newly completed payment.
 

@@ -4,7 +4,7 @@
 
 QazSplit lets a client pay a small project team in one atomic payment transaction. Every recipient first approves their share onchain. The client then pays a fixed milestone, and tokens go directly to the recipients, not through a QazSplit vault.
 
-[Live app](https://qazsplit.vercel.app) · [Demo video: 2:30, English](demo-day/QazSplit-demo-2m30-EN.mp4) · [12-slide pitch PDF](demo-day/pitch-deck.pdf) · [Try / verify the demo](docs/demo.md) · [Architecture](docs/architecture.md)
+[Live app](https://qazsplit.vercel.app) · [Pitch video: 1:46](demo-day/QazSplit-pitch.mp4) · [App demo: 2:30, English](demo-day/QazSplit-demo-2m30-EN.mp4) · [12-slide pitch PDF](demo-day/pitch-deck.pdf) · [Try / verify the demo](docs/demo.md) · [Architecture](docs/architecture.md)
 
 **Solana devnet only. Six-decimal mock USDC only. No real money. Unaudited hackathon prototype.**
 
