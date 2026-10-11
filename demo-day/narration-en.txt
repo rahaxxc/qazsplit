@@ -1,0 +1,23 @@
+One client payment. Every teammate paid. QazSplit splits project payments directly between approved wallets on Solana devnet.
+
+A fifty, thirty, twenty split should not depend on one teammate receiving everything and manually paying everyone else.
+
+We focus on teams of two to five people already using Solana wallets for projects.
+
+Propose, approve, pay, verify. Each recipient signs approval; each milestone payment needs one payer signature and transfers directly to recipients.
+
+Each recipient signs their share. Payments unlock only after everyone approves. Duplicate and unauthorized approvals fail. Addresses and shares stay fixed from proposal creation.
+
+Design, Development, Launch: separate milestones, one approved split. Clients pay each milestone once, with no escrow or reserved funds.
+
+This confirmed devnet payment split twenty mock USDC into ten, six, and four. One payer signature, one atomic transaction: every transfer succeeds, or distribution rolls back.
+
+Receipts show exact payouts, addresses, timestamps, and an Explorer link. Wallet history lets teammates reopen and verify confirmed payments.
+
+Solana enforces approved shares and milestone state onchain, with direct, atomic transfers. These checks do not depend solely on our interface.
+
+Our focus is recipient consent, milestones, direct payouts, and receipts, rather than payment splitting alone.
+
+Recorded tests passed: twenty-six Anchor, one hundred and nine frontend. Unaudited; mock tokens only.
+
+Try QazSplit on devnet. Agree, pay, verify. Thank you.

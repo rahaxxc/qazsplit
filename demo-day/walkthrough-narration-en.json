@@ -1,0 +1,12 @@
+[
+  {"duration":10,"text":"This is QazSplit: recipient-approved team payments on Solana devnet. This walkthrough uses mock tokens only, with no real money."},
+  {"duration":16,"text":"First, the team prepares a proposed agreement with three recipient wallets. Their shares are fifty, thirty, and twenty percent. The allocation must total exactly one hundred percent, and recipient addresses must be unique."},
+  {"duration":14,"text":"Milestones are Design for ten, Development for twenty, and Launch for ten mock USDC. Each uses the same allocation. This form is a preview, not a submission."},
+  {"duration":16,"text":"Here is a separate pending agreement. None of its three recipients have approved yet. Each member must connect their own wallet and sign approval for their assigned share. Until everyone approves, payments remain disabled."},
+  {"duration":18,"text":"Now we open an existing approved agreement. Its onchain state shows three out of three approvals. The agreement is active, and the recipient addresses and shares are locked. We are reading public data here, not signing new approvals."},
+  {"duration":18,"text":"The Development milestone was previously paid for twenty mock USDC. With the approved allocation, recipients receive ten, six, and four tokens. One client-signed payment atomically transfers funds directly to the recipients. There is no vault or escrow."},
+  {"duration":20,"text":"The receipt documents that historical payment. It shows the milestone name, total amount, and exact payout for each recipient. Below are the transaction signature and onchain timestamp. The milestone is marked Paid and cannot be paid again. QazSplit never held the funds."},
+  {"duration":18,"text":"Wallet history lets us find the confirmed payment again. Here, Development is listed for twenty mock USDC. Opening its receipt shows the same recipient amounts: ten, six, and four. These are existing records retrieved from Solana devnet, not a new payment."},
+  {"duration":10,"text":"We verify the same historical transaction in Solana Explorer. The network is devnet, and its status is successful and finalized."},
+  {"duration":10,"text":"Try QazSplit on devnet: one approved agreement, direct team payments, and test tokens only."}
+]

@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>QazSplit — Demo Day · 12 slides</title>
+  <style>
+    /* Adapted from create-pitch-deck's deck-design-system and slide templates.
+       Existing QazSplit neutrals/teal; no new branding or external dependencies. */
+    :root {
+      --c-bg:#101512; --c-bg-alt:#171e1a; --c-bg-card:#202923;
+      --c-surface:#202923; --c-border:#344039;
+      --c-primary:#9bd2bf; --c-primary-dim:#203a30; --c-accent:#9bd2bf;
+      --c-text:#edf4ef; --c-text-secondary:#bac8c0; --c-text-muted:#aab8b0;
+      --f-hero:96px; --f-h1:64px; --f-h2:48px; --f-h3:36px;
+      --f-body:28px; --f-small:22px; --f-caption:18px;
+      --font-display:Arial,Helvetica,sans-serif; --font-mono:Consolas,monospace;
+      --s-xs:8px; --s-sm:16px; --s-md:32px; --s-lg:48px; --s-xl:64px;
+      --ease-out:cubic-bezier(.16,1,.3,1);
+    }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html,body { height:100%; overflow:hidden; background:var(--c-bg); color:var(--c-text); font-family:var(--font-display); }
+    .deck { width:1920px; height:1080px; position:absolute; left:50%; top:calc(50% - 32px); transform:translate(-50%,-50%) scale(var(--deck-scale,1)); }
+    .slide { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:80px 100px; background:var(--c-bg); }
+    .slide[hidden] { display:none; }
+    .bg-alt { background:var(--c-bg-alt); }
+    .hero { font-size:var(--f-hero); font-weight:800; letter-spacing:-3px; line-height:1.05; }
+    .h1 { font-size:var(--f-h1); font-weight:700; letter-spacing:-2px; line-height:1.1; margin-top:16px; }
+    .h3 { font-size:var(--f-h3); font-weight:600; line-height:1.3; }
+    .body { font-size:var(--f-body); line-height:1.5; color:var(--c-text-secondary); }
+    .small { font-size:var(--f-small); line-height:1.5; color:var(--c-text-secondary); }
+    .caption { font-size:var(--f-caption); color:var(--c-text-muted); letter-spacing:2px; text-transform:uppercase; }
+    .mono { font-family:var(--font-mono); font-variant-numeric:tabular-nums; }
+    .text-primary { color:var(--c-primary); }
+    .divider { width:64px; height:3px; background:var(--c-primary); margin:var(--s-md) 0; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:var(--s-lg); }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s-md); }
+    .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s-md); }
+    .workflow { display:grid; grid-template-columns:1fr 48px 1fr 48px 1fr 48px 1fr; gap:24px; align-items:center; margin-top:48px; padding:48px 0; border-block:1px solid var(--c-border); }
+    .workflow .flow-arrow { text-align:center; }
+    .product-shot { display:block; width:100%; height:auto; border:1px solid var(--c-border); border-radius:12px; }
+    .approval-shot { width:1440px; margin:28px auto 0; }
+    .media-caption { font-size:22px; line-height:1.4; color:var(--c-text-muted); margin-top:12px; }
+    .payment-shot { width:1400px; margin:0 auto; }
+    .payout-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:28px; }
+    .payout-strip > div { border-top:1px solid var(--c-border); padding-top:20px; }
+    .payout-strip strong { display:block; font-size:56px; color:var(--c-primary); }
+    .proof-grid { display:grid; grid-template-columns:1040px 1fr; gap:40px; align-items:start; }
+    .proof-grid figcaption { margin-bottom:20px; }
+    .proof-grid .body { margin-top:24px; }
+    .checks-table td { padding:18px 24px; }
+    .checks-table td:last-child { color:var(--c-primary); white-space:nowrap; }
+    .section-gap { margin-top:var(--s-lg); }
+    .statement { font-size:var(--f-h2); line-height:1.3; max-width:1440px; }
+    .status-line { display:flex; align-items:center; gap:var(--s-md); margin-top:var(--s-lg); }
+    .status-line .badge { font-size:var(--f-body); }
+    .receipt-lines { margin-top:var(--s-md); border-top:1px solid var(--c-border); }
+    .receipt-line { display:flex; justify-content:space-between; gap:var(--s-md); padding:20px 0; border-bottom:1px solid var(--c-border); }
+    .receipt-line strong { color:var(--c-text); }
+    .stage-number { color:var(--c-primary); font-size:var(--f-h3); margin-bottom:var(--s-sm); }
+    .metric-card { padding:var(--s-lg) 0; border-top:1px solid var(--c-border); }
+    .metric-value { font-size:72px; font-weight:800; color:var(--c-accent); letter-spacing:-2px; line-height:1; }
+    .metric-label { font-size:var(--f-body); color:var(--c-text-secondary); margin-top:var(--s-sm); }
+    .badge { display:inline-block; padding:8px 18px; border:1px solid var(--c-border); border-radius:100px; font-size:var(--f-small); color:var(--c-text-secondary); }
+    .bullet-list { list-style:none; }
+    .bullet-list li { padding:var(--s-sm) 0; font-size:var(--f-body); color:var(--c-text-secondary); border-bottom:1px solid var(--c-border); }
+    .comparison-table { width:100%; border-collapse:collapse; }
+    .comparison-table th { text-align:left; padding:var(--s-sm) var(--s-md); font-size:var(--f-small); color:var(--c-text-muted); border-bottom:1px solid var(--c-border); }
+    .comparison-table td { padding:24px var(--s-md); font-size:var(--f-body); border-bottom:1px solid var(--c-border); color:var(--c-text-secondary); }
+    .comparison-table .highlight td { background:var(--c-primary-dim); color:var(--c-text); font-weight:600; }
+    .flow { display:flex; align-items:center; justify-content:space-between; gap:32px; padding:48px 0; border-block:1px solid var(--c-border); }
+    .flow-node { flex:1; }
+    .flow-arrow { color:var(--c-primary); font-size:48px; }
+    .flow-node .small { margin-top:16px; }
+    .lead { max-width:1200px; margin-top:32px; }
+    .tag-row { display:flex; gap:16px; margin-top:48px; }
+    .footnote { position:absolute; bottom:56px; left:100px; right:100px; font-size:var(--f-caption); line-height:1.5; color:var(--c-text-muted); }
+    a { color:var(--c-primary); text-underline-offset:5px; }
+    a:focus-visible,button:focus-visible { outline:3px solid var(--c-primary); outline-offset:5px; }
+    .receipt { margin-top:32px; }
+    .receipt .small { margin-top:12px; }
+    .notes { display:none; position:absolute; bottom:32px; left:60px; right:60px; padding:24px 32px; border:1px solid var(--c-border); border-radius:12px; background:#101512; z-index:10; font-size:28px; line-height:1.5; color:var(--c-text-secondary); }
+    .notes.visible { display:block; }
+    .nav-bar { position:fixed; bottom:0; left:0; right:0; height:64px; display:flex; justify-content:center; align-items:center; gap:24px; border-top:1px solid var(--c-border); background:var(--c-bg); }
+    .nav-btn { min-height:40px; padding:8px 16px; background:transparent; border:1px solid var(--c-border); border-radius:8px; color:var(--c-text); cursor:pointer; font:inherit; }
+    .nav-btn:disabled { opacity:.5; cursor:default; }
+    .nav-counter { color:var(--c-text-muted); font-family:var(--font-mono); }
+    @media (max-width:600px) {
+      .nav-bar { gap:8px; padding:0 8px; }
+      .nav-btn { padding:8px; font-size:12px; }
+      .nav-counter { white-space:nowrap; font-size:12px; }
+    }
+    @media print {
+      @page { size:1920px 1080px; margin:0; }
+      html,body { height:auto; overflow:visible; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+      .deck { position:static; transform:none; height:auto; }
+      .slide,.slide[hidden] { display:flex; position:relative; height:1080px; break-after:page; break-inside:avoid; }
+      .slide:last-child { break-after:auto; }
+      .nav-bar,.notes { display:none!important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="QazSplit twelve-slide pitch">
+    <section class="slide bg-alt" aria-label="Slide 1: QazSplit">
+      <p class="caption">QazSplit / Demo Day</p>
+      <h1 class="hero">One client.<br>Everyone paid.</h1>
+      <p class="h3 lead">Agree on shares. Pay by milestone. Verify every payout.</p>
+      <div class="tag-row"><span class="badge">Solana devnet</span><span class="badge">Mock tokens only</span></div>
+      <p class="footnote">Working prototype. No mainnet. No real money.</p>
+      <aside class="notes">QazSplit помогает клиенту платить небольшой команде напрямую. Участники подтверждают доли своими кошельками, клиент оплачивает этап, а команда получает проверяемую квитанцию. Это рабочий прототип в devnet, не продукт для реальных денег.</aside>
+    </section>
+    <section class="slide" hidden aria-label="Slide 2: Problem hypothesis">
+      <p class="caption">Problem hypothesis</p>
+      <h1 class="h1">Who forwards the team's payment?</h1>
+      <div class="divider"></div>
+      <div class="grid-3">
+        <div class="metric-card"><div class="metric-value mono">50.00%</div><p class="metric-label">Developer</p></div>
+        <div class="metric-card"><div class="metric-value mono">30.00%</div><p class="metric-label">Designer</p></div>
+        <div class="metric-card"><div class="metric-value mono">20.00%</div><p class="metric-label">Manager</p></div>
+      </div>
+      <p class="body lead">One project. A shared allocation.<br>Manual forwarding puts coordination on someone.</p>
+      <p class="footnote">Illustrative scenario; customer pain and savings have not been measured.</p>
+      <aside class="notes">Представим разработчика, дизайнера и менеджера. Если весь платёж получает один человек, остальные зависят от последующих пересылок. Это гипотеза проблемы, а не подтверждённый отзыв клиента. Если спросят о спросе: технический сценарий проверен, интервью с командами — следующий шаг.</aside>
+    </section>
+    <section class="slide bg-alt" hidden aria-label="Slide 3: Intended users">
+      <p class="caption">Our first users / hypothesis</p>
+      <h1 class="h1">Small teams. Shared project income.</h1>
+      <div class="divider"></div>
+      <div class="grid-2">
+        <div><h2 class="h3">A narrow starting point</h2><ul class="bullet-list"><li>Two to five teammates</li><li>Client-funded project work</li><li>Already comfortable with Solana wallets</li></ul></div>
+        <div><h2 class="h3">Not trying to be</h2><ul class="bullet-list"><li>A bank or fiat on-ramp</li><li>An escrow or dispute service</li><li>A full payroll platform</li></ul></div>
+      </div>
+      <p class="footnote">Intended segment, not an existing customer base. Every participant needs a wallet; signers need devnet SOL.</p>
+      <aside class="notes">Начинаем не со всех фрилансеров, а с маленьких команд, уже знакомых с Solana. Например, команда делает клиентский сайт и заранее делит доход. Мы пока не решаем покупку криптовалюты, вывод в банк, налоги и юридические споры. Спрос этого сегмента ещё нужно проверить.</aside>
+    </section>
+    <section class="slide" hidden aria-label="Slide 4: End-to-end workflow">
+      <p class="caption">The product</p>
+      <h1 class="h1">Agree first. Pay directly.</h1>
+      <div class="divider"></div>
+      <div class="workflow">
+        <div><p class="stage-number mono">01</p><h2 class="h3">Propose</h2><p class="body">Recipients, shares<br>and milestones</p></div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div><p class="stage-number mono">02</p><h2 class="h3">Approve</h2><p class="body">Every recipient signs<br>their own share</p></div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div><p class="stage-number mono">03</p><h2 class="h3">Pay</h2><p class="body">Client signs one<br>atomic payment</p></div>
+        <span class="flow-arrow" aria-hidden="true">→</span>
+        <div><p class="stage-number mono">04</p><h2 class="h3">Verify</h2><p class="body">Receipt, balances<br>and wallet history</p></div>
+      </div>
+      <p class="body section-gap">Money moves from client to recipients. Never through a QazSplit vault.</p>
+      <p class="footnote">Proposal and recipient approvals are separate transactions. One payer signature per milestone payment, not per entire agreement.</p>
+      <aside class="notes">Сценарий состоит из четырёх шагов. Лид фиксирует предложение. Каждый получатель подписывает свою долю. После всех согласий клиент выбирает этап и подписывает один платёж. Затем можно проверить квитанцию и историю. Не говори, что на всё соглашение нужна всего одна подпись: создание и согласия — отдельные транзакции.</aside>
+    </section>
+    <section class="slide bg-alt" hidden aria-label="Slide 5: Recipient approval">
+      <p class="caption">Recipient approval / onchain</p>
+      <h1 class="h1">Nobody's share is assumed.</h1>
+      <div class="divider"></div>
+      <div class="status-line"><span class="badge mono">2 / 3 · Pending</span><span class="flow-arrow" aria-hidden="true">→</span><span class="badge mono">3 / 3 · Active / Locked</span><span class="small">State transition / illustration</span></div>
+      <figure class="approval-shot"><img class="product-shot" src="demo-day/assets/recipient-approval.png" alt="Actual QazSplit devnet agreement: all three recipient wallets approved their 50%, 30% and 20% shares."><figcaption class="media-caption">Real devnet UI · all three approvals recorded onchain</figcaption></figure>
+      <p class="body lead">Each recipient signs their own share. Payment waits for everyone.</p>
+      <p class="footnote">Screenshot captured 2026-10-10. The 2/3 → 3/3 diagram is illustrative, not a recording of new signatures. Terms are fixed from proposal.</p>
+      <aside class="notes">Подпись получателя проверяется программой в блокчейне. Чужой кошелёк не может согласиться вместо него; повторное согласие отклоняется. Пока согласны двое из троих, оплата заблокирована. Важно: доли и адреса уже фиксированы при создании предложения. Это согласие с условиями, а не подтверждение выполнения работы и не юридическая экспертиза.</aside>
+    </section>
+    <section class="slide" hidden aria-label="Slide 6: Milestone payments">
+      <p class="caption">Milestone payments</p>
+      <h1 class="h1">One agreement. Separate project stages.</h1>
+      <div class="divider"></div>
+      <table class="comparison-table">
+        <thead><tr><th>Demo milestone</th><th>Fixed amount</th><th>Verified example status</th></tr></thead>
+        <tbody>
+          <tr><td>Design</td><td class="mono">10 mock USDC</td><td>Paid</td></tr>
+          <tr class="highlight"><td>Development</td><td class="mono">20 mock USDC</td><td>Paid · receipt available</td></tr>
+          <tr><td>Launch</td><td class="mono">10 mock USDC</td><td>Unpaid at verification</td></tr>
+        </tbody>
+      </table>
+      <p class="body lead">The same approved shares apply to every stage.<br>Each milestone can be paid once.</p>
+      <p class="footnote">Devnet example checked 2026-10-10. No escrow, automatic release, delivery verification or dispute resolution.</p>
+      <aside class="notes">Этап — это название и заранее заданная сумма, а не отдельный получатель. Development на 20 токенов делится между теми же тремя людьми: 10, 6 и 4. Клиент сам выбирает момент оплаты. Деньги не резервируются и не блокируются заранее; программа не проверяет, выполнена ли работа. Статусы на слайде — снимок проверенного демо, не живая сводка.</aside>
+    </section>
+    <section class="slide bg-alt" hidden aria-label="Slide 7: Verified atomic payment">
+      <p class="caption">Verified payment / test tokens only</p>
+      <h1 class="h1">20 in. 10 / 6 / 4 out.</h1>
+      <div class="divider"></div>
+      <figure class="payment-shot"><img class="product-shot" src="demo-day/assets/milestone-payment.png" alt="Actual QazSplit milestone selector showing Development: 20 mock USDC, Paid."><figcaption class="media-caption">Real devnet UI · Development already paid · not a new transaction</figcaption></figure>
+      <div class="payout-strip">
+        <div><strong class="mono">+10 mock USDC</strong><p class="small">Recipient 1 · <span class="mono">50.00%</span></p></div>
+        <div><strong class="mono">+6 mock USDC</strong><p class="small">Recipient 2 · <span class="mono">30.00%</span></p></div>
+        <div><strong class="mono">+4 mock USDC</strong><p class="small">Recipient 3 · <span class="mono">20.00%</span></p></div>
+      </div>
+      <div class="receipt"><p class="body"><a href="https://explorer.solana.com/tx/4XN2cKLQkooRBWoCuqJk4AjkHy4ia2PfqihPHaPzjXNpy4fRJg4wuqauemuG4MohiKnz4r2yoN2Hn2fHQTxfukmh?cluster=devnet" target="_blank" rel="noreferrer">Verified Development payment ↗</a></p><p class="small mono">Slot 509571296 · 1 signature · finalized · error: null</p></div>
+      <p class="footnote">Mock USDC, six decimals. Figures are token balance increases, not dollar value or current balances.</p>
+      <aside class="notes">Покажи уже подтверждённый Development: с кошелька плательщика ушло 20 mock USDC, получатели получили 10, 6 и 4. Это одна транзакция с одной подписью плательщика. Для нового живого платежа заранее подготовь другой неоплаченный этап; этот нельзя оплатить повторно. Если сеть тормозит, честно покажи сохранённую подтверждённую квитанцию, не называя её новым платежом.</aside>
+    </section>
+    <section class="slide" hidden aria-label="Slide 8: Receipt and wallet history">
+      <p class="caption">Payment proof / history</p>
+      <h1 class="h1">A receipt the team can verify.</h1>
+      <div class="divider"></div>
+      <div class="proof-grid">
+        <figure><figcaption class="h3">Development · 20 → 10 / 6 / 4</figcaption><img class="product-shot" src="demo-day/assets/development-receipt.png" alt="Actual paid Development receipt: 20 mock USDC, recipients received 10, 6 and 4, transaction signature and onchain timestamp."></figure>
+        <figure><figcaption class="h3">Reopen from History</figcaption><img class="product-shot" src="demo-day/assets/wallet-history.png" alt="Actual wallet payment history lists Development, 20 mock USDC, Paid, timestamp and Explorer link."><p class="body">Exact amounts. Recipient addresses.<br>Signature. Onchain timestamp.</p><p class="body"><a href="https://qazsplit.vercel.app/history" target="_blank" rel="noreferrer">Open wallet history ↗</a></p></figure>
+      </div>
+      <p class="footnote">Actual UI captures, 2026-10-10; existing confirmed payment. QazSplit never held the funds. Public RPC retention/rate limits apply.</p>
+      <aside class="notes">Квитанция содержит этап, общую сумму, адреса получателей, точные суммы, подпись и время. Через History можно вернуться к соглашению после перезагрузки. Данные читаются из блокчейна без базы приложения. Это не обещание вечного архива: публичный RPC может ограничивать старую историю или запросы. Роли Developer/Designer/Manager в примере условные, в программе хранятся адреса.</aside>
+    </section>
+    <section class="slide bg-alt" hidden aria-label="Slide 9: Why Solana">
+      <p class="caption">Why Solana</p>
+      <h1 class="h1">Settlement, not a spreadsheet.</h1>
+      <div class="divider"></div>
+      <div class="flow" aria-label="Config checked by program, then direct Token Program transfers">
+        <div class="flow-node"><h2 class="h3">Agreement PDA</h2><p class="small">Shares · approvals · milestones</p></div><span class="flow-arrow" aria-hidden="true">→</span>
+        <div class="flow-node"><h2 class="h3">QazSplit program</h2><p class="small">Check approval and unpaid stage</p></div><span class="flow-arrow" aria-hidden="true">→</span>
+        <div class="flow-node"><h2 class="h3">Token Program</h2><p class="small">Payer → recipients</p></div>
+      </div>
+      <p class="body lead">Every transfer commits together, or token changes revert.<br>Solana-native wallets, SPL tokens and verifiable agreement state.</p>
+      <p class="footnote">Other smart-contract chains can also do this. <a href="https://solana.com/docs/core/transactions" target="_blank" rel="noreferrer">Solana atomicity</a> · <a href="https://solana.com/docs/core/pda" target="_blank" rel="noreferrer">PDAs</a> · <a href="https://solana.com/docs/core/cpi" target="_blank" rel="noreferrer">CPIs</a>. Failed transactions can still incur fees.</p>
+      <aside class="notes">Само деление чисел не требует блокчейна. Он нужен для проверяемых согласий и исполнения записанных условий без кошелька-посредника QazSplit. Мы выбрали Solana для Solana-native команд, кошельков и SPL-токенов. Другие сети тоже поддерживают атомарность; не заявляй исключительность. Если перевод не проходит, изменения токенов и Paid откатываются, но комиссия сети возможна.</aside>
+    </section>
+    <section class="slide" hidden aria-label="Slide 10: Differentiation">
+      <p class="caption">Competitive context</p>
+      <h1 class="h1">An agreed project payment, not a treasury.</h1>
+      <div class="divider"></div>
+      <table class="comparison-table">
+        <thead><tr><th>Project</th><th>Evidence-backed emphasis</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://colosseum.com/projects/explore/fideox" target="_blank" rel="noreferrer">Fideox ↗</a></td><td>Project treasury · deposit / distribute¹</td></tr>
+          <tr><td><a href="https://github.com/mertizal/Web3-Splitter" target="_blank" rel="noreferrer">Splitter ↗</a></td><td>Vault deposits · percentage claims²</td></tr>
+          <tr><td><a href="https://splitpact.com/" target="_blank" rel="noreferrer">SplitPact ↗</a></td><td>Business graphs · conditional routing³</td></tr>
+          <tr class="highlight"><td>QazSplit</td><td>Recipient approvals · milestones · direct payouts</td></tr>
+        </tbody>
+      </table>
+      <p class="body lead">Our focus: consent → project stage → direct payment → proof.</p>
+      <p class="footnote">¹ Archive checked 2026-10-05; current status unverified. ² Repository README. ³ Publisher claims. Sources ²/³ rechecked 2026-10-10; no competitor audit or feature-exclusivity claim.</p>
+      <aside class="notes">Процентное распределение само по себе не ново. Наш фокус — согласование конкретной команды, платежи по этапам и доказательство прямого перевода. У Fideox в ранее проверенном архиве описана казна проекта; актуальное состояние не подтверждено. Splitter README описывает vault, SplitPact — графы денежных потоков. Не утверждай, что у них нет согласий, этапов или квитанций: отсутствие этих функций мы не доказали. Это специализация, не защищённый moat.</aside>
+    </section>
+    <section class="slide bg-alt" hidden aria-label="Slide 11: Proof and boundaries">
+      <p class="caption">Evidence / scope</p>
+      <h1 class="h1">Working proof. Honest limits.</h1>
+      <div class="divider"></div>
+      <table class="comparison-table checks-table">
+        <thead><tr><th>What was checked</th><th>Evidence / result</th></tr></thead>
+        <tbody>
+          <tr><td>Recipient approvals · unauthorized / duplicate</td><td>Recorded local tests · passed</td></tr>
+          <tr><td>Wrong mint · insufficient balance · rounding</td><td>Recorded local tests · passed</td></tr>
+          <tr><td>Atomic rollback · repeated milestone payment</td><td>Recorded local tests · passed</td></tr>
+          <tr class="highlight"><td>Development payment · <span class="mono">20 → 10 / 6 / 4</span></td><td>Devnet transaction · finalized</td></tr>
+          <tr><td>Local test suites</td><td><span class="mono">26</span> Anchor + <span class="mono">109</span> frontend · passed</td></tr>
+        </tbody>
+      </table>
+      <p class="body lead">Not established: customer demand, revenue, audit or production readiness.<br>Devnet + mock USDC only. No mainnet or real funds.</p>
+      <p class="footnote">Test results recorded 2026-10-10 in reports/history-devnet-verification.md; not rerun for this presentation. Technical proof ≠ customer traction.</p>
+      <aside class="notes">Программа собрана, локальные 26 Anchor-тестов и 109 frontend-тестов проходили при предыдущей проверке. Проверены согласия, неверные адреса и доли, wrong mint, недостаточный баланс, округление, повторная оплата и атомарный откат. Подтверждённый devnet-платёж — техническое доказательство, не выручка и не пользовательский спрос. Аудита нет, программа обновляемая. Не скрывай известную UX-проблему: ошибка RPC могла остаться рядом с успешной квитанцией; результат проверяем в Explorer.</aside>
+    </section>
+    <section class="slide" hidden aria-label="Slide 12: Ask and demo link">
+      <p class="caption">The next question</p>
+      <h1 class="hero">Help us test<br>the workflow.</h1>
+      <p class="h3 lead">Feedback from small teams already paid on Solana.</p>
+      <div class="divider"></div>
+      <p class="body">Try one devnet project payment.<br>Tell us where approval or payment gets confusing.</p>
+      <p class="h3 section-gap"><a href="https://qazsplit.vercel.app" target="_blank" rel="noreferrer">qazsplit.vercel.app ↗</a></p>
+      <p class="footnote">Proposed feedback ask, not existing traction, fundraising or a committed roadmap. Devnet prototype only.</p>
+      <aside class="notes">Просьба конкретная: небольшая команда проходит одно тестовое соглашение и платёж и рассказывает, где было непонятно. Мы хотим проверить полезность согласования и этапов, не просто собрать лайки. Пока не обещаем mainnet, тарифы, аудит или новые функции. Это план обратной связи, не уже привлечённые пользователи. Покажи ссылку, пригласи к вопросам и остановись.</aside>
+    </section>
+  </main>
+  <nav class="nav-bar" aria-label="Presentation controls">
+    <button class="nav-btn" id="previous" type="button">← Previous</button>
+    <span class="nav-counter" id="counter" aria-live="polite">1 / 12</span>
+    <button class="nav-btn" id="next" type="button">Next →</button>
+    <button class="nav-btn" id="toggle-notes" type="button" aria-pressed="false">Notes (N)</button>
+  </nav>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const previous = document.getElementById('previous');
+    const next = document.getElementById('next');
+    const notesButton = document.getElementById('toggle-notes');
+    let current = 0;
+    let notesVisible = false;
+    function show(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== current;
+        slide.querySelector('.notes').classList.toggle('visible', notesVisible && i === current);
+      });
+      previous.disabled = current === 0;
+      next.disabled = current === slides.length - 1;
+      document.getElementById('counter').textContent = `${current + 1} / ${slides.length}`;
+      notesButton.setAttribute('aria-pressed', String(notesVisible));
+    }
+    function resize() {
+      document.documentElement.style.setProperty('--deck-scale', Math.min(innerWidth / 1920, Math.max(1, innerHeight - 64) / 1080));
+    }
+    previous.addEventListener('click', () => show(current - 1));
+    next.addEventListener('click', () => show(current + 1));
+    notesButton.addEventListener('click', () => { notesVisible = !notesVisible; show(current); });
+    document.addEventListener('keydown', event => {
+      if (event.target.closest('a,button')) return;
+      if (event.key === 'ArrowRight' || event.key === ' ') { event.preventDefault(); show(current + 1); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); show(current - 1); }
+      if (event.key.toLowerCase() === 'n') { notesVisible = !notesVisible; show(current); }
+      if (event.key === 'Home') show(0);
+      if (event.key === 'End') show(slides.length - 1);
+    });
+    addEventListener('resize', resize);
+    resize();
+    show(0);
+  </script>
+</body>
+</html>
