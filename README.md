@@ -51,9 +51,6 @@ Proposal creation and recipient approvals are separate transactions. "One signat
 
 The core workflow is **consent → milestone → direct payment → proof**.
 
-<details>
-<summary><strong>Explore the eight implemented capabilities</strong></summary>
-
 | Feature | Current behavior |
 |---|---|
 | Recipient approval | Onchain wallet signatures; unauthorized and duplicate approvals rejected |
@@ -64,8 +61,6 @@ The core workflow is **consent → milestone → direct payment → proof**.
 | Wallet history | Reads agreements and confirmed payment activity from RPC; no application database |
 | Wallet UX | Connection, devnet guard, allocation preview and simulation before signing |
 | Legacy compatibility | Existing immutable `SplitConfig` accounts and payment URLs remain supported |
-
-</details>
 
 The focus is **recipient consent + milestone payments + direct settlement + verifiable receipts**, not payment splitting alone. We do not claim this combination is exclusive or a proven competitive moat.
 
@@ -82,9 +77,6 @@ These properties make the agreement and settlement independently inspectable ins
 
 **Wallets sign. PDAs store terms. The Token Program transfers funds directly.** No backend, database, login or indexer.
 
-<details>
-<summary><strong>See the onchain payment path</strong></summary>
-
 ```mermaid
 flowchart LR
     Lead[Team lead wallet] -->|propose_split| Agreement[SplitAgreement PDA]
@@ -99,8 +91,6 @@ flowchart LR
 
 No vault, escrow, backend, database, login or indexer. The Next.js frontend reads and submits through Solana RPC. [State layouts, instructions and rounding](docs/architecture.md).
 
-</details>
-
 ## A payment you can verify
 
 **20 mock USDC paid. 10 / 6 / 4 received. One payer signature.**
@@ -109,14 +99,9 @@ No vault, escrow, backend, database, login or indexer. The Next.js frontend read
 
 This Development payment was confirmed on **October 10, 2026**. The amounts are recipient balance **changes**, not current balances. This milestone is already Paid and cannot be paid again.
 
-<details>
-<summary><strong>Show the actual receipt screenshot</strong></summary>
-
 ![QazSplit receipt for the previously confirmed Development payment: 20 mock USDC split into 10, 6 and 4](demo-day/assets/development-receipt.png)
 
 Actual devnet UI captured October 10, 2026. No new transaction was signed to capture it.
-
-</details>
 
 <details>
 <summary><strong>Program, mint and public verification details</strong></summary>
