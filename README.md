@@ -61,6 +61,7 @@ The core workflow is **consent → milestone → direct payment → proof**.
 | Wallet history | Reads agreements and confirmed payment activity from RPC; no application database |
 | Wallet UX | Connection, devnet guard, allocation preview and simulation before signing |
 | Legacy compatibility | Existing immutable `SplitConfig` accounts and payment URLs remain supported |
+| Optional onward routing | After a Paid milestone, a recipient may route SOL from their own wallet through MultiHopper (devnet). Separate from settlement; not yet verified with a live devnet transfer |
 
 The focus is **recipient consent + milestone payments + direct settlement + verifiable receipts**, not payment splitting alone. We do not claim this combination is exclusive or a proven competitive moat.
 
@@ -90,6 +91,8 @@ flowchart LR
 ```
 
 No vault, escrow, backend, database, login or indexer. The Next.js frontend reads and submits through Solana RPC. [State layouts, instructions and rounding](docs/architecture.md).
+
+The one exception is optional: [MultiHopper onward routing](docs/architecture.md#optional-onward-routing-multihopper-devnet) adds server-side Next.js routes that keep its API key private. Settlement never depends on them.
 
 ## A payment you can verify
 
