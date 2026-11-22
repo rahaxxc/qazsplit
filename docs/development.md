@@ -85,9 +85,12 @@ Defaults are in [constants.ts](../app/src/lib/constants.ts). No settings are req
 |---|---|
 | `NEXT_PUBLIC_SOLANA_RPC_URL` | Optional devnet RPC endpoint; the app checks devnet genesis before transactions |
 | `NEXT_PUBLIC_QAZSPLIT_PROGRAM_ID` | Optional program override; leave unset for the published demo |
+| `MULTIHOPPER_API_KEY` | **Server-only.** Devnet `mh_test_` key for optional onward routing, from the [MultiHopper devnet dashboard](https://devnet.multihopper.com/developer/dashboard). When unset, routing reports "not configured" and everything else works |
+| `QAZSPLIT_ROUTING_SECRET` | **Server-only, optional.** 32+ character secret for routing access tokens; derived from the API key when unset. Set it so rotating the API key doesn't invalidate existing access tokens |
+| `QAZSPLIT_PUBLIC_ORIGIN` | **Server-only, optional.** The site's public origin (e.g. `https://qazsplit.example`). Routing approvals name the origin they were signed on; set this when a proxy rewrites the request host |
 
-Next.js reads optional local frontend settings from `app/.env.local`. Every `NEXT_PUBLIC_*` value is public in the browser bundle. Never put private RPC credentials, private keys or seed phrases in it. The mock mint remains fixed to `7S3HyHeoD9WvVt63frsvRU9Kcixw2bRDAeyD8tVC6w8H`.
+Next.js reads optional local settings from `app/.env.local` (see [`app/.env.example`](../app/.env.example)). Every `NEXT_PUBLIC_*` value is public in the browser bundle. Never put private RPC credentials, private keys or seed phrases in it, and never give the MultiHopper variables a `NEXT_PUBLIC_` prefix. The mock mint remains fixed to `7S3HyHeoD9WvVt63frsvRU9Kcixw2bRDAeyD8tVC6w8H`.
 
 ## Vercel
 
-The existing frontend uses Root Directory `app`, Next.js preset and its standard build command. Build using the committed workspace lockfile and include optional platform dependencies; Windows-only native dependencies must not be copied to Linux. No backend, database or deployer secrets are needed. See the existing [CI workflow](../.github/workflows/ci.yml) and [dated release report](../reports/history-devnet-verification.md); this documentation change does not redeploy the onchain program.
+The existing frontend uses Root Directory `app`, Next.js preset and its standard build command. Build using the committed workspace lockfile and include optional platform dependencies; Windows-only native dependencies must not be copied to Linux. No database or deployer secrets are needed; only the optional onward routing needs `MULTIHOPPER_API_KEY` set as a server-side Vercel environment variable. See the existing [CI workflow](../.github/workflows/ci.yml) and [dated release report](../reports/history-devnet-verification.md); this documentation change does not redeploy the onchain program.

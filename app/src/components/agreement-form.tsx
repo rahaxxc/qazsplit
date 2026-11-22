@@ -13,6 +13,7 @@ import { fetchTokenBalance, simulateInstructions } from "@/lib/qazsplit-client";
 import type { AppClient } from "@/lib/solana-client";
 import { calculateAllocations, formatTokenAmount } from "@/lib/split-math";
 import { getTransactionClient, getWalletTransactionVersion, type WalletTransactionVersion } from "@/lib/transaction-compat";
+import { OnwardRouting } from "./onward-routing";
 
 type Prepared = { instructions: Instruction[]; payer: Address; version: WalletTransactionVersion; index: number };
 type ReceiptProof = { index: number; signature: string; clientTimestamp?: string };
@@ -223,6 +224,8 @@ export function AgreementForm({ splitAddress }: { splitAddress: string }) {
           : receipt?.index === index && receipt.clientTimestamp ? <p className="field-help">Client time: <time dateTime={receipt.clientTimestamp}>{receipt.clientTimestamp}</time></p> : null}
         <p className="mt-4 text-success">QazSplit never held the funds</p>
       </section> : null}
+      {/* Optional, separate step after settlement; it never touches the payment above. */}
+      {milestone.paid && memberIndex >= 0 ? <OnwardRouting agreement={agreement} milestoneIndex={index} /> : null}
     </div>
   );
 }
